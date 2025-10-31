@@ -16,8 +16,8 @@ This Python script fetches failed session records from the Arista Agni API and e
 ### 1. Clone the repository (if not already done)
 
 ```bash
-git clone <your-repo-url>
-cd <repo-directory>
+git clone https://github.com/hazardsg/get-agni-sessions.git
+cd get-agni-sessions
 ```
 
 ### 2. Create a Python virtual environment
@@ -52,7 +52,7 @@ pip install -r requirements.txt
 
 ### 4. Configure environment variables
 
-The script requires API credentials and an organization ID.  
+The script requires API credentials and an organization ID.
 
 1. Copy the example environment file:
 
@@ -117,4 +117,3 @@ Wrote 42 records to agni_session_list_20251031_153045.csv
 ## License
 
 Specify your license here (e.g., MIT, Apache 2.0).
-
