@@ -68,6 +68,8 @@ KEY_VALUE=<your_key_value>
 AGNI_ORG_ID=<your_org_id>
 ```
 
+
+> **Note:** The Organization ID can be found by logging into AGNI and clicking your profile icon. Then click Copy Organization ID.
 > **Note:** `.env` is included in `.gitignore` to keep your credentials safe.
 
 ---
