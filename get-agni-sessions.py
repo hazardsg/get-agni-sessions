@@ -52,7 +52,7 @@ while current_from >= START_DATE:
     print(f"\n Fetching sessions from {current_from.isoformat()} → {current_to.isoformat()}")
 
     payload = {
-        # "orgID": ORG_ID,
+        "orgID": ORG_ID,
         "status": "failed",
         "fromTimestamp": current_from.isoformat().replace("+00:00", "Z"),
         "toTimestamp": current_to.isoformat().replace("+00:00", "Z"),
