@@ -1,0 +1,6 @@
+stats.count.users
+stats.count.clients
+stats.count.nads
+hourly.auth.count
+daily.topN.auth.errors
+daily.topN.locations.failed

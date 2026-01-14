@@ -13,20 +13,25 @@ load_dotenv()
 KEY_ID = os.getenv("KEY_ID")
 KEY_VALUE = os.getenv("KEY_VALUE")
 ORG_ID = os.getenv("AGNI_ORG_ID")
+AGNI_URL = os.getenv("AGNI_URL")  # e.g., https://beta.agni.arista.io
 
-
-if not KEY_ID or not KEY_VALUE or not ORG_ID:
-    print("Missing KEY_ID, KEY_VALUE, or AGNI_ORG_ID in .env", file=sys.stderr)
+# Validate Environment Variables
+if not KEY_ID or not KEY_VALUE or not ORG_ID or not AGNI_URL:
+    print("Error: Missing required environment variables in .env", file=sys.stderr)
+    print("Ensure KEY_ID, KEY_VALUE, AGNI_ORG_ID, and AGNI_URL are set.", file=sys.stderr)
     sys.exit(1)
+
+# Ensure URL does not end with a slash for consistent path joining
+AGNI_URL = AGNI_URL.rstrip("/")
 
 # --- 2. Login and create session ---
 session = requests.Session()
-login_url = "https://ag01c01.agni.arista.io/cvcue/keyLogin"
+login_url = f"{AGNI_URL}/cvcue/keyLogin"
 login_params = {"keyID": KEY_ID, "keyValue": KEY_VALUE}
 login_headers = {"Accept": "application/json"}
 
 try:
-    print("Logging in...")
+    print(f"Logging into {AGNI_URL}...")
     resp = session.get(login_url, headers=login_headers, params=login_params, timeout=30)
     resp.raise_for_status()
     print("Login successful.")
@@ -35,14 +40,14 @@ except requests.exceptions.RequestException as e:
     sys.exit(1)
 
 # --- 3. Prepare API request ---
-API_URL = "https://ag01c01.agni.arista.io/api/session.list"
+API_URL = f"{AGNI_URL}/api/session.list"
 TIMEOUT = 60
-WINDOW_MINUTES = 30  # fetch x minutes of data at a time Adjust if you see 1000 records returned. Seems to be the max...
+WINDOW_MINUTES = 30  # fetch x minutes of data at a time
 START_DATE = datetime.now(timezone.utc) - timedelta(hours=6)  # How far back to look
 
 all_records = []
 
-# Start from now and move backward in 5-minute windows
+# Start from now and move backward in X-minute windows
 current_to = datetime.now(timezone.utc)
 current_from = current_to - timedelta(minutes=WINDOW_MINUTES)
 
